@@ -6,41 +6,35 @@ import java.util.List;
 public class Main {
 	
 	public static void main(String[] args) {
+	
 		
-		
-		 double budget = 600.00;
-        double tShirt = 50.00;
-        double jeansPrice = 80.00;
-        double jacket = 100.00;
-		
-		 List<String> combinations = new ArrayList<>();
-		 int maxTshirts = (int) (budget / tShirt);
-	     int maxJeans = (int) (budget / jeansPrice);
-	     int maxJackets = (int) (budget / jacket);
-	     
-	     for (int tshirts = 1; tshirts <= maxTshirts; tshirts++) {
-	            for (int jeans = 1; jeans <= maxJeans; jeans++) {
-	                for (int jackets = 1; jackets <= maxJackets; jackets++) {
-	                    double totalCost = tshirts * tShirt + jeans * jeansPrice + jackets * jacket;
+		double amount = 600.00;
+        double priceOfTShirt = 50.00;
+        double priceOfJeans = 80.00;
+        double priceOfJacket = 100.00;
+        
 
-	                    // Check if the combination meets the condition
-	                    if (totalCost <= budget - tShirt) {
-	                        combinations.add(tshirts + " T-shirt(s), " + jeans + " Jeans, " + jackets + " Jacket(s)");
-	                    }
-	                }
-	            }
-	        }  
-	     if (combinations.isEmpty()) {
-	            System.out.println("No Combination Found.");
-	        } else {
-	            System.out.println("Combinations");
-	            for (String combination : combinations) {
-	                System.out.println(combination);
-	            }
-	        }
-		
+        combinations(amount, priceOfTShirt, priceOfJeans, priceOfJacket);
 	}
-	
-	
 
-}
+	public static void combinations(double amount, double priceOfTShirt, double priceOfJeans, double priceOfJacket) {
+        int items=0; //TAKING THE COUNT VARIABLE FOR JUST COUNTING COMBINATIONS IN PRINT STATEMENT
+		for (int tShirts=1; tShirts*priceOfTShirt<=amount; ++tShirts) {
+			double remainingAmountAfterTShirt=amount-(tShirts*priceOfTShirt);
+            for (int jeans=1; jeans*priceOfJeans<=remainingAmountAfterTShirt; ++jeans) {
+                int jackets=(int) ((amount-(tShirts*priceOfTShirt)-(jeans*priceOfJeans))/priceOfJacket);
+                double totalCost=(tShirts*priceOfTShirt)+(jeans*priceOfJeans)+(jackets*priceOfJacket);
+                if (totalCost<=amount  && jackets>=1 && jeans>=1 && tShirts>=1) {
+                	++items;
+                	System.out.println(items+" ->  "+tShirts+" T-shirts, "+jeans+" Jeans, "+jackets+" Jackets");
+                }
+            }
+        }
+        if(items==0){
+            System.out.println("Unable to find combination");
+        }
+    }
+	
+	}
+
+
